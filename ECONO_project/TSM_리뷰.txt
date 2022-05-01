@@ -17,9 +17,48 @@ Uni-directional TSM mingle (과거 현재) 저용량 적합 > 온라인 비디�
  
 
 
+TENSOR R(N * C * T * H * W) 
+N = batch size;
+C = number of channel
+T = temporal dimension         시간 차원?
+H, W = spatial resolutions
+
+뭐라고 하긴 하는데 일단 본 논문 TSM은 Uni-directional(단 반향)을 사용하는거 같다.
 
 
 
+컨볼루션 연산은 shift and multiply-accumulate.(단일 곱셈-누산기).
+
+time dimension을 +-1씩 옮겨(shift) and  
+아래 식을 사용해서 나온값을 fold 한다 이뜻인가?
+multiply-accumulate 식을 사용해서  time dimension, channel dimension.
+
+
+실시간 비디오에서는 미래 프레임을 현재 프레임으로 옮길 수 가 없다고 함. 
+그래서 본 논문에서는 Uni-directional TSM을 사용함.
+
+
+shift operation이 zero-computation 특성을 가짐에도 불구하고
+논문에서는 찾았음 -> 간단하게 채택하는것로 spatial shift strategy 이미지 분류 내에서 
+2개의 주요 이슈를 소개함 
+
+첫 번째 : 효율적이지 않다. shift operataiton이 개념적으로 zero FLOP이 되다는데
+	데이터의 이동간 추가적인 비용 불가역적이다 그리고 초래한다 용량 증가를 
+
+
+두 번째 : 정확하지가 않아. 너무 많은 채널을 shifting하다보니 상당히 spatial modeling ability에 데미지가 있음.
+	그리고 성능 저하 결과를 초래함.
+
+
+이를 해결하기 위해 논문에서 2가지 방안을 제시함.
+
+첫 번재 : 논문은 temporal partial shift 전략을 사용함. 모든 channels를 shifting하는것보다,
+	논문에서는 shift해 small portion of the channels for efficient temproal fusion.
+ 	이 strategy가 cut down할 수 있음 data movement cost를.
+
+두 번째 : 논문은 TSM에다가 resudual branch를 넣어줌. 그게 current frame의 activation을 보존해줌.
+	그래서 spatial feature learning capability of the 2D CNN 위협적이지 않음. 
+	한미돌 걍 성능 저하 결과 초래 전보다 나아지는듯 상당히.
 
 
 

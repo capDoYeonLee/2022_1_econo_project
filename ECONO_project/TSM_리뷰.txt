@@ -38,8 +38,8 @@ multiply-accumulate 식을 사용해서  time dimension, channel dimension.
 그래서 본 논문에서는 Uni-directional TSM을 
 
 
-shift operation이 zero-computation 특성을 가짐에도 불구하고,
- 이미지 분류 내에서 사용하는 spatial shift strategy을 채택한다면,
+shift operation이 zero-computation 특성을 가짐에도 불구하고,          # zero-computation이란 cost가 0인 느낌.
+ 이미지 분류 내에서 사용하는 spatial shift strategy을 채택한다면,          한마디로 저 문맥에서는 shift해도 cost가 없음.
 2개의 이슈가 발생함.
 
 첫 번째 : 효율적이지 않다. shift operataiton이 개념적으로 zero FLOP이 되다는데
@@ -59,6 +59,9 @@ shift operation이 zero-computation 특성을 가짐에도 불구하고,
 두 번째 : 논문은 TSM에다가 resudual branch를 넣어줌. 그게 current frame의 activation을 보존해줌.
 	그래서 spatial feature learning capability of the 2D CNN 위협적이지 않음. 
 	한미돌 걍 성능 저하 결과 초래 전보다 나아지는듯 상당히.
+
+
+
 
 
 
